@@ -15,15 +15,96 @@ Apache Spark seems to be for large scale data needs and Kafka seems more approac
 
 I picked up "[Kafka - The Definitive Guide](https://www.amazon.co.uk/Kafka-Definitive-Real-Time-Stream-Processing/dp/1492043087/ref=sr_1_5?crid=1BPYEQA8AX2SR)" and "[Mastering Kafka Streams and ksqlDB](https://www.amazon.co.uk/Mastering-Kafka-Streams-ksqlDB-real-time/dp/1492062499/ref=sr_1_1?crid=1BPYEQA8AX2SR)" though work and started reading.
 
-I quickly learned of Apache Zookeeper used alongside Kafka to help manage a leader in a cluster, I created a small Kafka + Zookeeper project using Terraform https://github.com/gordonmurray/terraform_aws_kafka_zookeeper
+I quickly learned of Apache Zookeeper used alongside Kafka to help manage a leader in a cluster, I created a small Kafka + Zookeeper project using Terraform [https://github.com/gordonmurray/terraform_aws_kafka_zookeeper](https://github.com/gordonmurray/terraform_aws_kafka_zookeeper) to gain some first hand experience.
 
-I was able to get a zookeeper cluster and a Kafka cluster running, though not fully in an automated way that Id like through Terraform. I needed ot SSH in and update the config on each instance to make each node aware of itself and other nodes.  I wanted to automate it fully so I could tear it down each night and create it again a few days later when I had time to try it again.
+I was able to get a zookeeper cluster and a Kafka cluster running, though not fully in an automated way that Id like through Terraform. I needed to SSH in and update the config on each instance to make each node aware of itself and other nodes.  I wanted to automate it fully so I could tear it down each night and create it again a few days later when I had time to try it again.
 
-I read that in Kafka circles, Zookeeper was a bit of a pain and that later versions of Kafka would have its own method for mananging itself and would drop zookeeper. I started another Terraform project using only Kafka https://github.com/gordonmurray/terraform_aws_kafka. While I was working on that, I read about AWS hosted version of Kafka called MSK and a just releasted serverless option.
+I read that in Kafka circles, Zookeeper was a bit of a pain and that later versions of Kafka would have its own method for mananging itself and would drop zookeeper. I started another Terraform project using only Kafka [https://github.com/gordonmurray/terraform_aws_kafka](https://github.com/gordonmurray/terraform_aws_kafka). While I was working on that, I read about AWS hosted version of Kafka called MSK and a just-released [serverless MSK](https://aws.amazon.com/msk/features/msk-serverless/) option.
 
-The serverless option isn't yet available in Terraform, theres an open PR for it here https://github.com/hashicorp/terraform-provider-aws/issues/22058 so I created a small cluster using the aws_msk_cluster terraform resource. It takes 15 minutes or so to make a cluster, but still faster than my own projects so far. I was interested in getting data in to the cluster and consuming/transforming data so I gave up the self hosted option for now and started using MSK.
+The serverless option isn't yet available in Terraform, theres an [open PR for it here](https://github.com/hashicorp/terraform-provider-aws/issues/22058) so I created a small cluster using the aws_msk_cluster terraform resource. It takes 15 minutes or so to make a cluster, but still faster than my own projects so far. I was interested in getting data in to the cluster and consuming/transforming data so I gave up the self hosted option for now and started using MSK.
 
-I needed to get some data in to the new kafka cluster. I heard of Debezium in the past and wasn't exactly sure what it was. Turns out its developed by Redhat. It uses a Kafka connector framework to read from MySQL / MariaDBs binlog and creates/popualtes Kafka topics ready to consume.
+```
+# 3 x t3.small: $142.28/month
+resource "aws_msk_cluster" "kafka" {
+  cluster_name           = "kafka"
+  kafka_version          = "2.6.2"
+  number_of_broker_nodes = 3
+
+  broker_node_group_info {
+    instance_type   = "kafka.t3.small"
+    ebs_volume_size = 100
+    client_subnets = [
+      aws_subnet.private_subnet_1a.id,
+      aws_subnet.private_subnet_1b.id,
+      aws_subnet.private_subnet_1c.id
+    ]
+
+    security_groups = [
+      aws_security_group.kafka.id,
+      aws_security_group.vpn.id,
+    ]
+  }
+
+  configuration_info {
+    arn      = aws_msk_configuration.configuration_debezium.arn
+    revision = 1
+  }
+
+  client_authentication {
+    sasl {
+      iam   = false
+      scram = false
+    }
+  }
+
+  encryption_info {
+    encryption_at_rest_kms_key_arn = aws_kms_key.kafka_key.arn
+
+    encryption_in_transit {
+      client_broker = "TLS_PLAINTEXT"
+      in_cluster    = true
+    }
+  }
+
+  open_monitoring {
+    prometheus {
+      jmx_exporter {
+        enabled_in_broker = true
+      }
+      node_exporter {
+        enabled_in_broker = true
+      }
+    }
+  }
+
+  logging_info {
+    broker_logs {
+      cloudwatch_logs {
+        enabled   = true
+        log_group = aws_cloudwatch_log_group.kafka_broker_logs.name
+      }
+
+    }
+  }
+
+  tags = {
+    Name      = "kafka"
+  }
+}
+
+resource "aws_msk_configuration" "configuration_debezium" {
+  kafka_versions = ["2.6.2"]
+  name           = "kafka-configuration"
+  description    = "MSK config, initially the auto create topic for Debezium"
+
+  server_properties = <<PROPERTIES
+auto.create.topics.enable = true
+zookeeper.connection.timeout.ms = 1000
+PROPERTIES
+}
+```
+
+I needed to get some data in to the new kafka cluster. I heard of [Debezium](https://debezium.io/) in the past and wasn't exactly sure what it was. Turns out its developed by Redhat. It uses a Kafka connector framework to read from MySQL / MariaDBs binlog and creates/populates Kafka topics ready to consume.
 
 This post on Medium walked me though setting up Debezium https://garrett-jester.medium.com/build-a-real-time-backend-infrastructure-with-aws-msk-rds-ec2-and-debezium-1900c3ee5e67
 
