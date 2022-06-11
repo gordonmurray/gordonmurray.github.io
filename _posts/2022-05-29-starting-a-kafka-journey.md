@@ -13,7 +13,7 @@ While reading about CDC, things like events and streams are mentioned and tools 
 
 Apache Spark seems to be for large scale data needs and Kafka seems more approachable for event streaming so I started to look in to it.
 
-I picked up "[Kafka - The Definitive Guide](https://www.amazon.co.uk/Kafka-Definitive-Real-Time-Stream-Processing/dp/1492043087/ref=sr_1_5?crid=1BPYEQA8AX2SR)" and "[Mastering Kafka Streams and ksqlDB](https://www.amazon.co.uk/Mastering-Kafka-Streams-ksqlDB-real-time/dp/1492062499/ref=sr_1_1?crid=1BPYEQA8AX2SR)" though work and started reading.
+I picked up "[Kafka - The Definitive Guide](https://www.amazon.co.uk/Kafka-Definitive-Real-Time-Stream-Processing/dp/1492043087/ref=sr_1_5?crid=1BPYEQA8AX2SR)" and "[Mastering Kafka Streams and ksqlDB](https://www.amazon.co.uk/Mastering-Kafka-Streams-ksqlDB-real-time/dp/1492062499/ref=sr_1_1?crid=1BPYEQA8AX2SR)" through work and started reading.
 
 I quickly learned of Apache Zookeeper used alongside Kafka to help manage a leader in a cluster, I created a small Kafka + Zookeeper project using Terraform [https://github.com/gordonmurray/terraform_aws_kafka_zookeeper](https://github.com/gordonmurray/terraform_aws_kafka_zookeeper) to gain some first hand experience.
 
