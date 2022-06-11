@@ -9,7 +9,7 @@ My first exposure to binary logs, or binlogs were just something that database r
 
 Over time I learned that a binlog had different formats such as Mixed or Row based and could be read by more than just replicas. Tools like AWS's [Database Migration Service (DMS)](https://aws.amazon.com/dms/) could read from a source database and use the binlog for Change Data Capture (CDC) to keep up to date with any changes to the data in the source database.
 
-While reading about CDC, things like Streams are mentioned and tools like [Apache Spark](https://spark.apache.org/) and A[pache Kafka](https://kafka.apache.org/) are mentioned.
+While reading about CDC, things like events and streams are mentioned and tools like [Apache Spark](https://spark.apache.org/) and [Apache Kafka](https://kafka.apache.org/) too.
 
 Apache Spark seems to be for large scale data needs and Kafka seems more approachable for event streaming so I started to look in to it.
 
