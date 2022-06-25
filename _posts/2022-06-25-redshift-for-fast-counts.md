@@ -1,8 +1,9 @@
 ---
 layout: post
-title:  "Use AWS Redshift for fast count queries"
+title:  "Using AWS Redshift for fast count queries"
 date:   2022-06-25 17:00
 categories: aws
+tags: ["aws", "rds", "redshift", "terraform"]
 ---
 
 I work with a database that stores Sendgrid event information. [Sendgrid](https://sendgrid.com/) is a popular service for sending emails and for each email sent to a recipient, Sendgrid provides a webhook facility to send you feedback on each email. It doesn't contain the email content, just some high level infromation including an event field showing if an email was processed, delivered, dropped or labelled as spam by the recipient. This is important to monitor to investiage any emails that have been labelled as spam to follow up on and try to help prevent those in the future.
