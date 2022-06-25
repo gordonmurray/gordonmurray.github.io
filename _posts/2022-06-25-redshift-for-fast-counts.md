@@ -32,7 +32,7 @@ I used AWS DMS to copy all existing data from the RDS instance in to an existing
 
 I used Terraform to create the DMS replication instance, DMS source and target endpoints and the task to copy the data to Redshift. I added the Terraform to a repo here in case its useful in the future.
 
-https://github.com/gordonmurray/terraform_dms_redshift
+[https://github.com/gordonmurray/terraform_dms_redshift](https://github.com/gordonmurray/terraform_dms_redshift)
 
 Copying the data took just over 8 hours using default settings. Once the data was copied over, I ran a couple of queries to compare the MariaDB instance and Redshift instance:
 
