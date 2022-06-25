@@ -3,7 +3,7 @@ layout: post
 title:  "Bash script for RDS maintenance"
 date:   2022-03-16 13:00
 categories: aws
-tags: aws rds
+tags: ["aws", "rds"]
 ---
 
 A useful Bash script to schedule a backup window, a maintenance window and some upgrades to perform on a number of RDS instances.
