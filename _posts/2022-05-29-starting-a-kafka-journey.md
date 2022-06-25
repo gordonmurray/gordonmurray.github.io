@@ -3,6 +3,7 @@ layout: post
 title:  "Starting a Kafka journey"
 date:   2022-05-29 22:35
 categories: kafka
+tags: aws kafka terraform
 ---
 
 My first exposure to binary logs, or binlogs were just something that database replicas needed to use to keep up to date. I didn't need to know anything more than that to keep a database and its replicas online.
