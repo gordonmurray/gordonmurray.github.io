@@ -29,7 +29,7 @@ I tried upgrading the RDS instance temporarily, doubling the CPU and memory with
 
 Redshift, SingleStore, Apache Druid and Apache Pinot are on my list to try out for this and other use cases. Since AWS Redshift is on my doorstep so to speak as I use AWS, I am trying Redshift first.
 
-I used AWS DMS to copy all existing data from the RDS instance in to an existing Redshift instance, a dc2.large ( the smallest Redshift instance available. ) It took just over 8 hours using default settings to copy across the 1 billion records. I learned along the way that the disk space on a Redshift instance can't be scaled independently and that more nodes are needed to increase space which is a shame.
+I used AWS DMS to copy all existing data from the RDS instance in to an existing Redshift instance, a dc2.large ( the smallest Redshift instance available. ) It took just over 8 hours using default settings to copy across the 1 billion records. I learned along the way that the disk space on a Redshift instance can't be scaled independently and that more nodes are needed to increase space which is a shame. It copied the data to s3 first and imported in to Redshift in blocks which Redshift is apparently good at handling.
 
 I used Terraform to create the DMS replication instance, DMS source and target endpoints and the task to copy the data to Redshift. I added the Terraform to a repo here in case its useful in the future.
 
