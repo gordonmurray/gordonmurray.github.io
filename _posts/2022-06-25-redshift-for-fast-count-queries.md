@@ -65,14 +65,9 @@ On top of that, Redshift is cheaper than the RDS instance in this particular sce
 
 | Region | Description | Service  | Monthly | First 12 months total | Currency | Configuration summary |
 |----------|------------|----------|-----------|--------|--------|--------|
-| EU (Ireland) | 2 node Redshift in EU | Amazon Redshift | 441.84 | 5302.08 | USD | "Nodes ( 2 instances of type dc2.large  OnDemand ) |  Managed storage size (160 GB)"
-| EU (Ireland) | RDS instance in EU | Amazon RDS for MariaDB | 531.216 | 6374.59 | USD | "Storage volume (General Purpose SSD (gp2)) |  Storage amount (732 GB per month) |  Quantity (1) |  Instance type (db.r6g.large) |  Utilization (On-Demand only) (100 %Utilized/Month) |  Deployment selection (Multi-AZ) |  Pricing strategy (OnDemand)"
+| EU (Ireland) | 2 node Redshift in EU | Amazon Redshift | 441.84 | 5302.08 | USD | "Nodes ( 2 instances of type dc2.large  OnDemand )
+| EU (Ireland) | RDS instance in EU | Amazon RDS for MariaDB | 531.216 | 6374.59 | USD | "Storage volume (General Purpose SSD (gp2))
 
-Costs visible here on the AWS Calculator: https://calculator.aws/#/estimate?id=54a430e10fdcc8c5cc432934bb9b1279e6903e3a
+Costs visible here on the [AWS Calculator](https://calculator.aws/#/estimate?id=54a430e10fdcc8c5cc432934bb9b1279e6903e3a)
 
 It may be hard for Singlestore, Druid or Pinot to beat that speed when I get to try those for this and similar projects!
-
-
-
-
-
