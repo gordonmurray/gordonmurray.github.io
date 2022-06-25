@@ -3,7 +3,7 @@ layout: post
 title:  "Quick and simple steps to get a single node Singlestore cluster running on AWS"
 date:   2022-03-12 13:00
 categories: aws
-tags: aws singlestore
+tags: ["aws", "singlestore"]
 ---
 
 Use at least an m5.xlarge ec2 instance for 4 CPUs
