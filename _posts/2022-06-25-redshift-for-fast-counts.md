@@ -6,13 +6,13 @@ categories: aws
 tags: ["aws", "rds", "redshift", "terraform"]
 ---
 
-I work with a database that stores Sendgrid event information. [Sendgrid](https://sendgrid.com/) is a popular service for sending emails and for each email sent to a recipient, Sendgrid provides a webhook facility to send you feedback on each email. It doesn't contain the email content, just some high level infromation including an event field showing if an email was processed, delivered, dropped or labelled as spam by the recipient. This is important to monitor to investiage any emails that have been labelled as spam to follow up on and try to help prevent those in the future.
+I work with a database that stores Sendgrid event information. [Sendgrid](https://sendgrid.com/) is a popular service for sending emails and for each email sent to a recipient, Sendgrid provides a webhook facility to send you feedback on each email. It doesn't contain the email content, just some high level information including an event field showing if an email was processed, delivered, dropped or labelled as spam by the recipient. This is important to monitor to investigate any emails that have been labelled as spam to follow up on and try to help prevent those in the future.
 
 This particular database has grown quite large, over 1 billion records. Each sent email will provide at least 2 events back, one for Processed and one for Delivered.
 
 The current database is on AWS, an r6g.large MariaDB MultiAZ RDS instance with 732gb of storage. It has 2 vCPUs and 16gb of memory. It has over 1 billion records and growing. It currently costs $531.22/month and will increase as storage grows.
 
-I have a background process to query the database a few times a day to perform a count of the events and pops a summary message in to our Chat applicaton like the following:
+I have a background process to query the database a few times a day to perform a count of the events and pops a summary message in to our Chat application like the following:
 
 ![Simple Sendgrid Summary]({{ site.url }}/images/sendgrid_summary.png)
 
@@ -25,11 +25,11 @@ This was fine for the first few million records, with an appropriate index on th
 
 ![RDS CPU from running a single query]({{ site.url }}/images/rds_cpu_from_a_query.png)
 
-I tried upgrading the RDS instance temporarilty, doubling the CPU and memory with the same result. I'm interested to see what other database systems might be able to perform the same counts more effeciently instead of trying to break up the data in to separate tables per year or similar manual sharding.
+I tried upgrading the RDS instance temporarily, doubling the CPU and memory with the same result. I'm interested to see what other database systems might be able to perform the same counts more efficiently instead of trying to break up the data in to separate tables per year or similar manual sharding.
 
 Redshift, SingleStore, Apache Druid and Apache Pinot are on my list to try out for this and other use cases. Since AWS Redshift is on my doorstep so to speak as I use AWS, I am trying Redshift first.
 
-I used AWS DMS to copy all existing data from the RDS instance in to an existing Redshift instance, a dc2.large ( the smallest Redshift instance available. ) It took just over 8 hours using default settings to copy across the 1 billion records. I learned along the way that the disk space on a Redshift instance can't be scaled independetly and that more nodes are needed to increas space which is a shame.
+I used AWS DMS to copy all existing data from the RDS instance in to an existing Redshift instance, a dc2.large ( the smallest Redshift instance available. ) It took just over 8 hours using default settings to copy across the 1 billion records. I learned along the way that the disk space on a Redshift instance can't be scaled independently and that more nodes are needed to increase space which is a shame.
 
 I used Terraform to create the DMS replication instance, DMS source and target endpoints and the task to copy the data to Redshift. I added the Terraform to a repo here in case its useful in the future.
 
