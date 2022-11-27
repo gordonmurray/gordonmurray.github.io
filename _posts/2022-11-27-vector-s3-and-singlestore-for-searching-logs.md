@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Vector.dv, AWS S3 and SingleStore for fast log search"
+title:  "Vector.dev, AWS S3 and SingleStore for fast log search"
 date:   2022-11-27 19:00
 categories: aws
 tags: ["aws", "s3", "vector.dev", "singlestore", "terraform"]
@@ -16,7 +16,7 @@ I worked on this for a while and created the resources using Terraform, availabl
 
 One evening I found out about [vector.dev](https://vector.dev) via a comment on Reddit. 
 
-xxx
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">Tried out <a href="https://t.co/jRl2jbX8Ks">https://t.co/jRl2jbX8Ks</a> yesterday. It can send logs and metrics directly to s3 and other destinations. Could be a great alternative to potentially expensive saas based logging tools. Nice and easy to set up. Created by Datadog.</p>&mdash; Gordon Murray (@gortron) <a href="https://twitter.com/gortron/status/1581594725521334277?ref_src=twsrc%5Etfw">October 16, 2022</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
 
 Vector.dev is a logging and metrics agent written in Rust that can collect local metrics and logs and send them to a destination, including s3. I tried it one evening and it was quick and easy to set up. It wouldn't require any changes to an existing app as it could read existing logs that an app produced.
 
@@ -24,13 +24,13 @@ The next part to solve was a way to search logs on s3. I was already away of Sin
 
 There was a SingleStore Hackathon coming up at the time and that seemed like good motivation to try out this vector.dev + s3 + SingleStore Pipeline idea
 
-xxx
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">I wonder if a combination of logs + <a href="https://t.co/jRl2jbG5Is">https://t.co/jRl2jbG5Is</a> + s3 + Singlestore Pipelines + a UI for fast log analysis would be a good entry for the SingleStore Hackathon <a href="https://t.co/RiW1XcLWrA">https://t.co/RiW1XcLWrA</a></p>&mdash; Gordon Murray (@gortron) <a href="https://twitter.com/gortron/status/1581679366991667205?ref_src=twsrc%5Etfw">October 16, 2022</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
 
 I spent some time learning and creating Pipelines in SingleStore. I needed a SingleStore instance to work with. [I wrote a quick post on creating a single node cluster in the past](https://gordonmurray.com/aws/2022/03/12/single-node-singlestore-cluster-on-aws.html) but I wanted to create it fully using Packer and Terraform in the hopes of creating everything from s3 to SingleStore in one go. I worked on it and the resulting Terraform is available on Github here https://github.com/gordonmurray/terraform_aws_singlestore. SingleStore also provide a hosted solution, but I'll take any excuse to write some Terraform.
 
 With a SingleStore instance in place, I needed some logs. I created a simple nginx web server and shared a link on Twitter to get some hits and generate some access logs.
 
-xxx
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">Testing something http://54.229.14.41/</p>&mdash; Gordon Murray (@gortron) <a href="https://twitter.com/gortron/status/1585386073844514816?ref_src=twsrc%5Etfw">October 26, 2022</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
 
 I used Vector to monitor the nginx access logs and send them to an s3 bucket. I used the default access logs from nginx and worked on creating a Pipeline in SingleStore to pull in the data.
 
@@ -108,7 +108,7 @@ FROM information_schema.PIPELINES_ERRORS;
 
 Got it going:
 
-xxx
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">Took me a while fiddling with <a href="https://t.co/jRl2jbG5Is">https://t.co/jRl2jbG5Is</a>&#39;s toml file, but nice to have an ongoing pipeline of logs from s3 directly in to SingleStore for super fast searching ⚡️ <a href="https://t.co/lUlmsTjumt">pic.twitter.com/lUlmsTjumt</a></p>&mdash; Gordon Murray (@gortron) <a href="https://twitter.com/gortron/status/1585389373255979009?ref_src=twsrc%5Etfw">October 26, 2022</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
 
 I don't have a lot of logs in this test but the pipeline still took some time to import 1000 to 2000 log entries from a few dozen files on s3.
 
@@ -136,11 +136,11 @@ While looking different options when storing logs on s3, I was aware of file for
 
 I found a really great project called Benthos to search Parquet files on s3. Unfortunately for my needs it only performs batch jobs. When performing a search it returns the results and then exits. It doesn't perform an ongoing consumption of log files like vector for example
 
-xxxx
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">While searching for logging tools that support logging to s3 in parquet format I came across <a href="https://t.co/BCOlAG12NC">https://t.co/BCOlAG12NC</a>. &quot;Fancy stream processing made operationally mundane&quot;. Unfortunately for my needs, it runs and finishes and doesn&#39;t run as an agent like Vector or Fluent</p>&mdash; Gordon Murray (@gortron) <a href="https://twitter.com/gortron/status/1591871584469676038?ref_src=twsrc%5Etfw">November 13, 2022</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
 
 I also found an Apache project called Drill that can search semi structured data directly from s3, with no need for an import process like a pipeline
 
-xxx
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">Yet another handy Apache project I wasn&#39;t aware of. &quot;Apache Drill&quot;. Found it while reading up on the Parquet format. Query almost anything. Nice and easy to query nginx logs as if a mysql table <a href="https://t.co/r7Z4lqDaIL">pic.twitter.com/r7Z4lqDaIL</a></p>&mdash; Gordon Murray (@gortron) <a href="https://twitter.com/gortron/status/1590447741075062785?ref_src=twsrc%5Etfw">November 9, 2022</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
 
 I created a project again using Packer and Terraform to create a small Drill cluster as I continue to learn what Drill can do [https://github.com/gordonmurray/terraform_aws_apache_drill_zookeeper](https://github.com/gordonmurray/terraform_aws_apache_drill_zookeeper)
 
