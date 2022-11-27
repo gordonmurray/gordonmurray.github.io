@@ -146,4 +146,4 @@ I created a project again using Packer and Terraform to create a small Drill clu
 
 My plans to make a super fast, low cost logging solution are on hold for now. I think the next best step is to look in to ways to have logs stored in parquet format ( or better ) from the outset rather than converting using something like Lambdas as that will add some latency and cost to the overall process.
 
-There is an [https://github.com/vectordotdev/vector/issues/1374](open PR with Vector.dev to support the Parquet format) which could be excellent if it goes ahead. 
+There is an [open PR](https://github.com/vectordotdev/vector/issues/1374) with Vector.dev to support the Parquet format which could be excellent if it goes ahead. 
