@@ -88,3 +88,5 @@ select * from s3.root.`folder/` limit 10;
 ```
 
 ![Query data on s3 from Apache Drill]({{ site.url }}/images/query_data_in_s3_using_drill.png)
+
+Query results are quick and you don't need to configure Apache Drill to inform it about your data structure before you start running queries.
