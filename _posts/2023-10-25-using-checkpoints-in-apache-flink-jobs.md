@@ -53,4 +53,4 @@ I created the s3 bucket using Terraform and updated it to include a Lifecycle to
 
 I have moved on a little since trying checkpoints to pulling the data from Kafka instead of from a database. With the data in Kafka, I don’t know if I need to use Checkpoints anymore. For now, I have changed the interval to several hours apart to see how that works out.
 
-The full docker compose for this is available here [https://github.com/gordonmurray/apache_flink_using_checkpoint](https://github.com/gordonmurray/apache_flink_using_checkpoint)
+The full docker compose for this is available here [https://github.com/gordonmurray/apache_flink_using_checkpoints](https://github.com/gordonmurray/apache_flink_using_checkpoints)
