@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Apache Flink using Checkpoints"
-date:   2022-10-25 21:00
+date:   2023-10-25 21:00
 categories: aws
 tags: ["s3", "apache","flink"]
 ---
@@ -52,3 +52,5 @@ The data mounted up over time on s3 still, though that was due to having a lot o
 I created the s3 bucket using Terraform and updated it to include a Lifecycle to delete files in the bucket that were older than a week to keep the size of the bucket under control.
 
 I have moved on a little since trying checkpoints to pulling the data from Kafka instead of from a database. With the data in Kafka, I don’t know if I need to use Checkpoints anymore. For now, I have changed the interval to several hours apart to see how that works out.
+
+The full docker compose for this is available here https://github.com/gordonmurray/apache_flink_using_checkpoint
