@@ -10,7 +10,7 @@ When running some Flink Jobs that perform CDC from a relational database, there 
 
 When that happened, the Flink Job would start over. It would re-snapshot from the source database table which wasn’t great. It took time to do and added pressure to the source database as it read the data from the table again.
 
-I tried out Checkpointing https://nightlies.apache.org/flink/flink-docs-master/docs/dev/datastream/fault-tolerance/checkpointing/ in some Jobs that looked like it would help.
+I tried out [Checkpointing](https://nightlies.apache.org/flink/flink-docs-master/docs/dev/datastream/fault-tolerance/checkpointing/) in some Jobs that looked like it would help.
 
 ```
 execution.checkpointing.mode: AT_LEAST_ONCE
