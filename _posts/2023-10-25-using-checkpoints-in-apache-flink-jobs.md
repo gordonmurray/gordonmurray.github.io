@@ -2,7 +2,7 @@
 layout: post
 title:  "Apache Flink using Checkpoints"
 date:   2023-10-25 21:00
-categories: aws
+categories: data
 tags: ["s3", "apache","flink"]
 ---
 
@@ -30,7 +30,7 @@ state.backend: rocksdb
 state.backend.incremental: true
 ```
 
-I was confused as to why the checkpoint files weren’t being cleaned up when jobs were cancelled. I think the Job manager was responsible for cleaning up the old checkpoints but that it couldn’t connect to the files on the Task Manager containers to clean up the checkpoint folders there. 
+I was confused as to why the checkpoint files weren’t being cleaned up when jobs were cancelled. I think the Job manager was responsible for cleaning up the old checkpoints but that it couldn’t connect to the files on the Task Manager containers to clean up the checkpoint folders there.
 
 I added the settings to store the checkpoint data on s3. That seems to work. I created some jobs and cancelled them after running for a while. The checkpoint data was cleaned up alright.
 
@@ -47,7 +47,7 @@ s3.fs.impl: org.apache.hadoop.fs.s3a.S3AFileSystem
 s3.endpoint: s3.amazonaws.com
 ```
 
-The data mounted up over time on s3 still, though that was due to having a lot of jobs running and each one of them storing frequent checkpoints.  
+The data mounted up over time on s3 still, though that was due to having a lot of jobs running and each one of them storing frequent checkpoints.
 
 I created the s3 bucket using Terraform and updated it to include a Lifecycle to delete files in the bucket that were older than a week to keep the size of the bucket under control.
 
