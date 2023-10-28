@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "(Mis)using Catalogs in Apache Flink for identifying Jobs"
+title:  "Misusing Catalogs in Apache Flink for identifying Jobs"
 date:   2023-10-28 16:24
 categories: data
 tags: ["apache","flink","catalogs"]
