@@ -21,7 +21,7 @@
 title: Gordon Murray
 email: gordon@gordonmurray.com
 description: >- # this means to ignore newlines until "baseurl:"
-  Sysops engineer - AWS Certified Cloud Practitioner - Hashicorp Certified Terraform Associate
+  Experienced platform Engineer with a passion for working with AWS, Terraform, Ansible. AWS Certified Solutions Architect and Certified Terraform Associate
 baseurl: "/" # the subpath of your site, e.g. /blog
 twitter_username: gortron
 github_username:  gordonmurray

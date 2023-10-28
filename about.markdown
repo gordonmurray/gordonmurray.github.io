@@ -4,4 +4,4 @@ title: About me
 permalink: /about/
 ---
 
-Sysops engineer - AWS Certified Cloud Practitioner - Hashicorp Certified Terraform Associate
+Experienced platform Engineer with a passion for working with AWS, Terraform, Ansible. AWS Certified Solutions Architect and Certified Terraform Associate
