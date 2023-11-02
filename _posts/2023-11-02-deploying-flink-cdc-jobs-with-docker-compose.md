@@ -68,7 +68,7 @@ Use the docker-compose.yml file in [this repo](https://github.com/gordonmurray/a
 docker exec -it jobmanager /opt/flink/bin/sql-client.sh
 ```
 
-![Flink UI]({{ site.url }}/images/flink_console.png)
+![Flink Client]({{ site.url }}/images/flink_client.png)
 
 To get a feel for using Flink, create a table that will read data from a database table running in another container:
 
@@ -99,7 +99,7 @@ select * from sales_records_table;
 
 If you want to take things up a notch, you can write your SQL commands to a file, then submit the file to Flink for it to run in the background.
 
-The following file has a few commands to read from a fictional log of sales in a table in a source database, perform ongoing change data capture (CDC), perform a sum of all sales and then sink the resulting count in to redis.
+The following file has a few commands to read from a fictional log of sales in a table in a source database, perform ongoing change data capture (CDC), perform a sum of all sales and then sink the resulting sales sum in to redis.
 
 ```sql
 -- read in the data from the table in mariadb
