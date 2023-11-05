@@ -196,7 +196,7 @@ However when I first tried this a few days ago I didn't save my data and when I 
 
 After trying different Jars for Paimon and s3, I even submitted an [issue to the Paimon Github repo](https://github.com/apache/incubator-paimon/issues/2263). Only to close it a few minutes later after I re-read the docs and found the all important line, with a comment showing how important it is:
 
-![Paimon Checkpoint Interval]({{ site.url }}/images/paimon_checkpoint_interval.png.png)
+![Paimon Checkpoint Interval]({{ site.url }}/images/paimon_checkpoint_interval.png)
 
 Once I added that, data was writing to the s3 bucket again.
 
