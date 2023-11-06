@@ -6,15 +6,15 @@ categories: data
 tags: ["apache","flink","paimon", "cdc", "datalake"]
 ---
 
-I've been working with Apache Flink recently processing data from Kafka topics. While creating pipelines I wanted to see if I could also send the data from the topics to some longer term storage instead of taking up space on the kafka cluster for less important data. I also wanted to see if I could do this using Flink rather than another tool re-consuming the same topics.
+I've been working with Apache Flink recently processing data from Kafka topics. While creating pipelines I wanted to see if I could also send the data from the topics to some longer term storage instead of taking up space on the kafka cluster. I also wanted to see if I could do this using Flink rather than another tool re-consuming the same topics.
 
-There are a number of options available to send data from Flink to other storage locations such as sinking to a relational database or to s3. While I was reading about Flink Catalogs after some recent Catalog use, I found out about [Apache Paimon.](https://paimon.apache.org/)
+There are a number of options available to send data from Flink to other storage locations, such as sinking to a relational database or to s3. While I was reading about Flink Catalogs after some recent Catalog use, I found out about [Apache Paimon.](https://paimon.apache.org/)
 
 > Streaming data lake platform with high-speed data ingestion, changelog tracking and efficient real-time analytics.
 
 In its Getting Started section, it had a guide to working with Flink, so I tried it out.
 
-I used docker compose to get Flink up and running. I added a database to stream some database from and added the Paimon Jars and also some Jars for supporting s3 storage.
+I used docker compose to get Flink up and running. I added a database to stream some data and added the Paimon and S3 JARs.
 
 The docker compose file is:
 
@@ -192,7 +192,7 @@ ORC is comparable to the Parquet file format and AWS have a quick comparison her
 
 In the end it was quick and easy to get Paimon running to help Flink send data to s3 in a structured format.
 
-However when I first tried this a few days ago I didn't save my data and when I went back t o try it again, I couldn't for the life of me get it to write data to s3 again.
+However when I first tried this a few days ago I didn't save my data and when I went back to try it again, I couldn't for the life of me get it to write data to s3 again.
 
 After trying different Jars for Paimon and s3, I even submitted an [issue to the Paimon Github repo](https://github.com/apache/incubator-paimon/issues/2263). Only to close it a few minutes later after I re-read the docs and found the all important line, with a comment showing how important it is:
 
