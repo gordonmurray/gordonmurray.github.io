@@ -6,11 +6,11 @@ categories: data
 tags: ["apache","flink","iceberg", "cdc", "datalake", "parquet"]
 ---
 
-I recently tried out using Flink with Apache Paimon. Paimon is a "Streaming data lake platform with high-speed data ingestion". My hope is to find a convenient way for Flink to send data to s3 for longer term storage in a format that I can query easily again if need to down the line.
+I recently tried out using Flink with [Apache Paimon](https://paimon.apache.org/). Paimon is a "Streaming data lake platform with high-speed data ingestion". My hope is to find a convenient way for Flink to send data to s3 for longer term storage in a format that I can query easily again if need to down the line.
 
 Paimon was straight forward to get up and running within Flink and it stored data in s3 in ORC format. ORC is not a format I've worked with before so I wasn't too excited by it and unfortunately I didn't see a option to change the format.
 
-After trying Paimon, I was reminded of Apache Iceberg. Paimon is still in the Incubating stage at Apache and Iceberg graduated from the Incubator in 2020 so Iceberg might have been a more mature solution for me to try out first.
+After trying Paimon, I was reminded of [Apache Iceberg](https://iceberg.apache.org/). Paimon is still in the Incubating stage at Apache and Iceberg graduated from the Incubator in 2020 so Iceberg might have been a more mature solution for me to try out first.
 
 Having tried Iceberg, the data that it produces in an s3 bucket after CDCing from a test database seems more usable to me compared to the ORC Files produced by Paimon. The data is stored in parquet format and its snapshots are stored in Avro format, which I have some experience with. It has added metadata files too in json format.
 
@@ -40,7 +40,7 @@ Even though Im working with only a dozen records or so for testing, the Sink tas
 
 With the data now in s3, I was able to start a new Flink job and query the existing data which is great. Overall, using Iceberg could be a great option for long term storage of data on s3 in a structured format that Flink or other tools like Apache Drill can readily query when needed.
 
-The source to replicate this is on Github at [LINK]. The main part to get this running was the SQL command in Flink to create a catalog, nearly identical to the process for Paimon too.
+The source to replicate this is on Github at [https://github.com/gordonmurray/apache_flink_and_iceberg](https://github.com/gordonmurray/apache_flink_and_iceberg). The main part to get this running was the SQL command in Flink to create a catalog, nearly identical to the process for Paimon too.
 
 ```
 CREATE CATALOG s3_catalog WITH (
