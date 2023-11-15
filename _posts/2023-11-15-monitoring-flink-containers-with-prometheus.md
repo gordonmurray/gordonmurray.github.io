@@ -118,7 +118,7 @@ Some of the metrics Id recommend monitoring to help debug flink jobs are below. 
 
 The following image is a visualisation of the **flink_taskmanager_job_task_backPressuredTimeMsPerSecond** metric showing a new job thats busy for a few minutes.
 
-![A Grafana visualisation of back pressure](grafana_visualisation_flink.png)
+![A Grafana visualisation of back pressure]({{ site.url }}/images/grafana_visualisation_flink.png)
 
 The changes mentioned here to enable the metrics have been added to a docker compose file here in an earlier project that shows how to perform some basic CDC from ariadb to Redis using Flink:
 
