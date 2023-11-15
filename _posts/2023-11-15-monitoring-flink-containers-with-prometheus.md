@@ -110,11 +110,15 @@ Or, if you are using service discovery in Prometheus you can use the following j
 Some of the metrics Id recommend monitoring to help debug flink jobs are below. You won't see these metric names show up until you have some jobs running first in Flink.
 
 
-* **flink_taskmanager_job_task_busyTimeMsPerSecond** - This will help show how busy the task managers are for any given second. Often this value will spoke up if you are starting a new Flink Job and will settle once the job is running smoothly.
+* **flink_taskmanager_job_task_busyTimeMsPerSecond** - This will help show how busy the task managers are for any given second. Often this value will spike up if you are starting a new Flink Job and will settle once the job is running smoothly.
 * **flink_taskmanager_job_task_backPressuredTimeMsPerSecond** - Similar to busy time, this will show how busy your flink jobs are. This should settle too and if it doesn't you'll need to look in to the performance of your Flink jobs.
 * **flink_jobmanager_job_runningTime** - This one is useful to watch. It should be a growing value counting up the running time of a job. If it keeps starting over, that means one or more of your jobs have restarted and may need attention
 * **flink_jobmanager_job_numRestarts** - This is a more direct metrics to let you know if your jobs are restarting and how often
 * **flink_taskmanager_Status_JVM_Memory_Heap_Used** - Its useful to keep an eye on the heap memory being used by the flink jobs. If this goes too high, your jobs might be suffering any you might need to give Flink more memory or optimize yur jobs
+
+The following image is a visualisation of the **flink_taskmanager_job_task_backPressuredTimeMsPerSecond** metric showing a new job thats busy for a few minutes.
+
+![A Grafana visualisation of back pressure](grafana_visualisation_flink.png)
 
 The changes mentioned here to enable the metrics have been added to a docker compose file here in an earlier project that shows how to perform some basic CDC from ariadb to Redis using Flink:
 
