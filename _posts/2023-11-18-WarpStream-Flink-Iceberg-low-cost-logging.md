@@ -1,4 +1,4 @@
----
+mi---
 layout: post
 title:  "WarpStream Apache Flink and Iceberg for a cost effective scalable logging solution"
 date:   2023-11-18 20:00
@@ -207,7 +207,7 @@ While its great to query the logs here, the table disappears once you close the 
 
 By default, Kafka or in this case WarpStream won’t store the log data long term either by design.  You can set up infinite retention in Kafka, though that will add up in disk space cost when using kafka nodes.
 
-### Apache Iceberg for long term and lost cost storage
+### Apache Iceberg for long term and low cost storage
 
 Flink can help out here too. It can read the data from the logs topic and save it to s3 using a table format from Apache Iceberg. Apache Iceberg is “is a high-performance format for huge analytic tables. Iceberg brings the reliability and simplicity of SQL tables to big data”.
 
