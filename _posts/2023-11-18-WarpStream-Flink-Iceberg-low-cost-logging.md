@@ -222,8 +222,8 @@ CREATE CATALOG iceberg_catalog WITH (
     'type' = 'iceberg',
     'catalog-type' = 'hadoop',
     'warehouse' = 's3a://my-test-bucket-gordon/iceberg',
-    's3a.access-key' = 'AKIAQHR3C3MPJINIDNDF',
-    's3a.secret-key' = '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',
+    's3a.access-key' = 'xxxxx',
+    's3a.secret-key' = 'xxxxx',
     'property-version' = '1'
 );
 
