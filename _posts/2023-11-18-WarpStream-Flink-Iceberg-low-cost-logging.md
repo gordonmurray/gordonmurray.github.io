@@ -1,4 +1,4 @@
-mi---
+---
 layout: post
 title:  "WarpStream Apache Flink and Iceberg for a cost effective scalable logging solution"
 date:   2023-11-18 20:00
