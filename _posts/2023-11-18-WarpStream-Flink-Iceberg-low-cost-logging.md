@@ -10,11 +10,13 @@ When developing and debugging systems, having logs is critical.  A number of ser
 
 However if you have a large volume of logs or if you hope to retain the logs for a long time, the costs can add up quickly.
 
-Using a combination of [Vector.dev](http://Vector.dev) (a logging agent), Warpstream (a kafka compatible data streaming platform) and Apache Flink (a distributed processing engine) can provide a hugely cost effective and powerful logging solution worth looking at.
+Using a combination of [Vector.dev](http://Vector.dev) (a logging agent), [Warpstream](https://www.warpstream.com/) (a kafka compatible data streaming platform) and [Apache Flink](https://flink.apache.org/) (a distributed processing engine) can provide a hugely cost effective and powerful logging solution worth looking at.
 
 - [vector.dev](http://vector.dev) is a logging agent that can submit logs to a Kafka cluster. FluentBit can also send logs to Kafka, I tried it out recently here https://github.com/gordonmurray/warpstream_fluent_bit
-- WarpStream is a kafka compatible platform that stores data in s3 instead of costly kafka nodes. Saving on maintenance and costs around managing a kafka cluster. Flink can happliy read from WarpStream, I tried it out recently here https://github.com/gordonmurray/apache_flink_and_warpstream
-- Flink is a processing engine that can read the data in real time. It can provide insights such as pattern recoginition using its Complex Event Processing (CEP) library as well as stream the data to s3 for long term storage. The data in s3 can use a table format such as Apache Iceberg for long term and structured data.  I tried out using Flink to store data in Iceberg format earlier here https://gordonmurray.com/data/2023/11/09/apache-flink-and-apache-iceberg.html
+- [Warpstream](https://www.warpstream.com/) is a kafka compatible platform that stores data in s3 instead of costly kafka nodes. Saving on maintenance and costs around managing a kafka cluster. Flink can happliy read from WarpStream, I tried it out recently here https://github.com/gordonmurray/apache_flink_and_warpstream
+- [Flink](https://flink.apache.org/) is a processing engine that can read the data in real time. It can provide insights such as pattern recoginition using its Complex Event Processing (CEP) library as well as stream the data to s3 for long term storage. The data in s3 can use a table format such as Apache Iceberg for long term and structured data.  I tried out using Flink to store data in Iceberg format earlier here https://gordonmurray.com/data/2023/11/09/apache-flink-and-apache-iceberg.html
+
+![A diagram of logging to Warpstream and reading using Flink]({{ site.url }}/images/diagram.png)
 
 Using some generated access log data we can create a working example of these tools working together to try it out.
 
