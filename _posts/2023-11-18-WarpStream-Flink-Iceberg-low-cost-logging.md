@@ -12,13 +12,15 @@ However if you have a large volume of logs or if you hope to retain the logs for
 
 Using a combination of [Vector.dev](http://Vector.dev) (a logging agent), [Warpstream](https://www.warpstream.com/) (a kafka compatible data streaming platform) and [Apache Flink](https://flink.apache.org/) (a distributed processing engine) can provide a hugely cost effective and powerful logging solution worth looking at.
 
-- [vector.dev](http://vector.dev) is a logging agent that can submit logs to a Kafka cluster. FluentBit can also send logs to Kafka, I tried it out recently here https://github.com/gordonmurray/warpstream_fluent_bit
+- [vector.dev](http://vector.dev) is a logging agent that can submit logs to a Kafka cluster. [FluentBit](https://fluentbit.io/) can also send logs to Kafka, I tried it out recently here https://github.com/gordonmurray/warpstream_fluent_bit
 - [Warpstream](https://www.warpstream.com/) is a kafka compatible platform that stores data in s3 instead of costly kafka nodes. Saving on maintenance and costs around managing a kafka cluster. Flink can happliy read from WarpStream, I tried it out recently here https://github.com/gordonmurray/apache_flink_and_warpstream
-- [Flink](https://flink.apache.org/) is a processing engine that can read the data in real time. It can provide insights such as pattern recoginition using its Complex Event Processing (CEP) library as well as stream the data to s3 for long term storage. The data in s3 can use a table format such as Apache Iceberg for long term and structured data.  I tried out using Flink to store data in Iceberg format earlier here https://gordonmurray.com/data/2023/11/09/apache-flink-and-apache-iceberg.html
-
-![A diagram of logging to Warpstream and reading using Flink]({{ site.url }}/images/diagram.png)
+- [Flink](https://flink.apache.org/) is a processing engine that can read the data in real time. It can provide insights such as pattern recoginition using its Complex Event Processing (CEP) library as well as stream the data to s3 for long term storage. The data in s3 can use a table format such as [Apache Iceberg](https://iceberg.apache.org/) for long term and structured data.  I tried out using Flink to store data in Iceberg format earlier here https://gordonmurray.com/data/2023/11/09/apache-flink-and-apache-iceberg.html
 
 Using some generated access log data we can create a working example of these tools working together to try it out.
+
+The following diagram shows the end result. Logs coming from a source to WarpStream. WarpStream stores data to s3. Flink reads the data from WarpStream and allows you to run queries on the data and snd the data back to s3 in a format suitable for long time storage and querying.
+
+![A diagram of logging to Warpstream and reading using Flink]({{ site.url }}/images/diagram.png)
 
 ### Installing and running Warpstream
 
@@ -34,12 +36,12 @@ warpstream agent -agentPoolName apn_[YOUR CLUSTER] -bucketURL s3://[YOUR S3 BUCK
 
 ### Installing and running Vector.dev
 
-[Vector.dev](http://Vector.dev) is quick to install and use. There is a handy quick start guide on their site here https://vector.dev/docs/setup/quickstart/
+[Vector.dev](http://Vector.dev) is quick to install and use. There is a handy quick start guide on their site https://vector.dev/docs/setup/quickstart/
 
 Next, add a config file to tell vector to generate some sample logs for us to use, and send those logs to WarpStream
 
 ```toml
-#vector.toml
+#/etc/vector/vector.toml
 
 data_dir = "/var/lib/vector"
 
@@ -79,7 +81,7 @@ bootstrap_servers = "localhost:9092"
 topic = "logs"
 ```
 
-This config consists of a source which points to the nginx access log and a sink which is our warpstream virtual cluster.
+This config consists of a source which generates sample data and a sink which is our warpstream virtual cluster.
 
 The transform block is extracting the fields we need like host, identifier, date and so on from a nested message json.
 
@@ -121,7 +123,7 @@ Connect to the Flink SQL console using:
 ./bin/sql-client.sh
 ```
 
-And create a table to hold the logs
+And create a table to hold the logs. Make sure to add your Magic URL to the `bootstrap.servers` field.
 
 ```bash
 CREATE TABLE apache_logs (
@@ -142,7 +144,7 @@ CREATE TABLE apache_logs (
 ) WITH (
     'connector' = 'kafka',
     'topic' = 'logs',
-    'properties.bootstrap.servers' = 'api-f1972a07-f493-4ef1-a5a9-0e1089594c66.discovery.prod-z.us-east-1.warpstream.com:9092',
+    'properties.bootstrap.servers' = 'api-xxxxxxxxxxxxxxxxxx.warpstream.com:9092',
     'properties.group.id' = 'flink',
     'scan.startup.mode' = 'earliest-offset',
     'format' = 'json',
@@ -157,7 +159,7 @@ Once the table is created you can query it like a regular table in a relational 
 select * from apache_logs;
 ```
 
-### Pattern Recognition
+### Pattern Recognition using FLink
 
 We can use Flink to keep an eye on our logs for some key patterns such as
 
@@ -199,17 +201,17 @@ In this table:
 - `user_identifier_count` is the count of distinct user identifiers accessing the host in that time window.
 - `window_start` and `window_end` define the one-minute interval over which this aggregation is calculated.
 
-This output suggests that between 10:00 and 10:01, the host at IP 192.168.1.1 was accessed by 3 distinct user identifiers. The fact that these counts are greater than 2 (as per the `HAVING` clause) indicates a relatively high level of activity or possibly different user agents interacting with the same host within that minute, which might be an interesting pattern to investigate further.
+This output suggests that between 10:00 and 10:01, the host at IP 192.168.1.1 was accessed by 3 distinct user identifiers. The fact that these counts are greater than 2 (as per the `HAVING` clause) indicates a relatively high level of activity or possibly different user agents interacting with the same host within that minute, which might be an interesting pattern to investigate further. Or it could just be members of a family accessing a popular web site.
 
-While its great to query the logs here, the table disappears once you close the console.
+While its great to query the logs here, the table disappears once you close the Flink console.
 
-By default, Kafka or in this case WarpStream won’t store the log data long term either by design.  You can set up infinite retention, though that will add up in disk space cost when using kafka nodes.
+By default, Kafka or in this case WarpStream won’t store the log data long term either by design.  You can set up infinite retention in Kafka, though that will add up in disk space cost when using kafka nodes.
 
 ### Apache Iceberg for long term and lost cost storage
 
-Flink can help out here. It can read the data from the logs topic and save it to s3 using a table format from Apache Iceberg. Apache Iceberg is “is a high-performance format for huge analytic tables. Iceberg brings the reliability and simplicity of SQL tables to big data”.
+Flink can help out here too. It can read the data from the logs topic and save it to s3 using a table format from Apache Iceberg. Apache Iceberg is “is a high-performance format for huge analytic tables. Iceberg brings the reliability and simplicity of SQL tables to big data”.
 
-In short, this means that WarpStream can hold the newest logs as they come in and Flink can copy that data to s3 in a format that is efficient and available to query at any time for any historic queries you might like to run.
+WarpStream will hold the newest logs as they come in and Flink can copy that data to s3 in a format that is efficient and available to query at any time for any historic queries you might like to run.
 
 In Flink you can create a new Catalog which facilitates the storage to s3 for you.
 
@@ -253,7 +255,7 @@ create temporary table apache_logs (
 ) WITH (
     'connector' = 'kafka',
     'topic' = 'logs',
-    'properties.bootstrap.servers' = 'api-f1972a07-f493-4ef1-a5a9-0e1089594c66.discovery.prod-z.us-east-1.warpstream.com:9092',
+    'properties.bootstrap.servers' = 'api-xxxxxxxxxxxxxxxxxx.warpstream.com:9092',
     'properties.group.id' = 'flink',
     'scan.startup.mode' = 'earliest-offset',
     'format' = 'json',
@@ -284,7 +286,7 @@ SET 'execution.checkpointing.interval' = '60 s';
 INSERT INTO apache_logs_archive (bytes, datetime, host, method, protocol,referrer, request, service) SELECT bytes, datetime, host, method, protocol,referrer, request, service FROM apache_logs;
 ```
 
-You now have some (sample) data logging to WarpStream and s3. Flink is then pulling in the data and storing it for long term storage in Iceberg format on s3 with Flink ready to work on your data to spot patterns such as errors or malicious use.
+You now have some (sample) data logging to WarpStream and s3. Flink is then pulling in the data and storing it for long term storage in Iceberg format on s3 with Flink ready to work on your data to spot patterns such as errors or malicious use and send it wherever you need.
 
 ### Visualizing logs with Apache Superset
 
