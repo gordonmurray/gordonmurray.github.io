@@ -294,4 +294,4 @@ Apache Superset can add the final step, a “data exploration and data visualiza
 
 Using Flinks SQL Gateway and JDBC connector, Superset can read from Flink but thats a post for another day!
 
-The code snippets used here are available on Github at [https://github.com/gordonmurray/apache_flink_and_warpstream_for_logs](https://github.com/gordonmurray/apache_flink_and_warpstream_for_logs)]
+The code snippets used here are available on Github at [https://github.com/gordonmurray/apache_flink_and_warpstream_for_logs](https://github.com/gordonmurray/apache_flink_and_warpstream_for_logs)
