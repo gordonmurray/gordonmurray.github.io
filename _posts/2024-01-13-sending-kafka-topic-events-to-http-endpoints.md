@@ -129,3 +129,5 @@ Struct{id=5,name=product E,price=33.00,notes=great product}
 Schema changes are recorded in another topic called schema-changes.mydatabase so another HTTP sink could be used to monitor that topic if you wanted to watch for schema changes.
 
 Overall a quick and successful test, Ill be able to use this connector in future to send content form topics off to API endpoints, handy for keeping systems in sync.
+
+The files I used for this are available here in Github: [https://github.com/gordonmurray/debezium_warpstream_http_sink](https://github.com/gordonmurray/debezium_warpstream_http_sink)
