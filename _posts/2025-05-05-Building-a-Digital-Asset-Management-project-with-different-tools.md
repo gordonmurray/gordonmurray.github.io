@@ -20,7 +20,7 @@ The componets all run on Fly.io and stay mostly within the free tier. The Worker
 
 The data flow looks like this:
 
-```mermaid
+<div class="mermaid">
 flowchart LR
     Client[Client]
     FastAPI[FastAPI Producer]
@@ -32,7 +32,7 @@ flowchart LR
     FastAPI --> RabbitMQ
     RabbitMQ --> Worker
     Worker --> R2
-```
+</div>
 
 The resulting files and flders on R2 look like:
 
