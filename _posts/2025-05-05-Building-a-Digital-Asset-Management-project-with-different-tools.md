@@ -108,4 +108,4 @@ I'm happy with what I've built so far. Its minimal but useful for future experim
 ---
 
 * This post is as much for future-me as it is for anyone else!
-* Code on Github https://github.com/gordonmurray/dam-pipeline-fastapi-clip
+* Code on [GitHub](https://github.com/gordonmurray/dam-pipeline-fastapi-clip)
