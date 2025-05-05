@@ -37,6 +37,10 @@ url: https://gordonmurray.com
 
 minima:
   show_excerpts: true
+  social_links:
+    - platform: bluesky
+      user_url: "https://bsky.app/profile/gordonmurray.com"
+      title: "Bluesky"
 
 # Exclude from processing.
 # The following items will not be processed, by default.
