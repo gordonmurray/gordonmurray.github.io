@@ -12,10 +12,11 @@ I also wanted to avoid using a typical database for this sort of project. I want
 
 The project is split into two main components:
 
-- **Producer (FastAPI):** Handles image uploads, stores them in Cloudflare R2 (S3-compatible object storage), and queues metadata to RabbitMQ provided by CloudAMQP. I used R2 instead of S3 since it is currently cheaper and an excust to use some of Cloudflares services.
+- **Producer (FastAPI):** Handles image uploads, stores them in Cloudflare R2 (S3-compatible object storage), and queues metadata to RabbitMQ provided by CloudAMQP. I used R2 instead of S3 since it is currently cheaper and an excuse to use some of Cloudflares services.
 - **Worker (Python):** Listens to the Rabbit queue, downloads images, generates captions with BLIP, vectorizes images with CLIP, and appends metadata to a Parquet file in R2.
 - **Learning SvelteKit:** I decided to use SvelteKit to build a minimal front end, even though front end development isn't a strength of mine. This was an opportunity to step out of my comfort zone and learn a new framework.
 
+The componets all run on Fly.io and stay mostly within the free tier. The Worker keeps failing due to low memeory but easily solved by scaling up a little. CloudAMQP is new to me too. It was quick and easy to get a rabbitmq running and provided a nice UI to keep an eye on the queues.
 
 The data flow looks like this:
 
@@ -84,10 +85,11 @@ The resulting data in Parquet format sotred on R2 looks like this:
 
 ## Lessons Learned
 
-- **Decoupling is powerful:** Using a queue (RabbitMQ) made the system more robust and scalable.
-- **Cloud storage is liberating:** Cloudflare R2 was easy to use and low cost.
+- **R2:** Cloudflare R2 was easy to use and low cost. Im used to using S3.
 - **Some ML:** Integrating CLIP and BLIP was surprisingly smooth with Python.
 - **Parquet:** It's a great effecient format for storing and querying structured data.
+- **Fly.io** - Really easy to use. I keep typing "docker" instead of "fly" in the command line to manage the app or view the logs.
+- **cloudamqp.com** - Also easy to use. I had a rabbitmq queue ready in a minute or two. And a new UI via LavinMQ which is new to me.
 
 ## Future Directions
 
@@ -106,3 +108,4 @@ I'm happy with what I've built so far. Its minimal but useful for future experim
 ---
 
 * This post is as much for future-me as it is for anyone else!
+* Code on Github https://github.com/gordonmurray/dam-pipeline-fastapi-clip
