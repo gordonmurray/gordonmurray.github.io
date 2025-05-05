@@ -2,7 +2,7 @@
 
 ## Introduction
 
-I wanted to build a pipeline for digital asset management (DAM) that could handle image uploads, process them asynchronously, and enrich them with some ML modesl.
+I wanted to build a pipeline for digital asset management (DAM) that could handle image uploads, process them asynchronously, and enrich them with some ML models.
 
 I also wanted to avoid using a typical database for this sort of project. I want to use some new tools or technologies that I either haven't used before (like fly.io and Cloudflare) or dont get a chance to use as much as I'd like (such as using Parquet for data).
 
