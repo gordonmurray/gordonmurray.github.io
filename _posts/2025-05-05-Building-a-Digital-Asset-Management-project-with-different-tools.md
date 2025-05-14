@@ -1,3 +1,11 @@
+---
+layout: post
+title:  "Building a Digital Asset Management (DAM) project with different tools"
+date:   2025-05-05 19:30:00
+categories: aws
+tags: ["aws", "dam", "python", "fastapi","blip","svelte"]
+---
+
 # Building a Digital Asset Management (DAM) project with different tools
 
 ## Introduction
