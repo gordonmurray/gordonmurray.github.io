@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "When Lance Hits the Wall at 70 Images on Cloudflare R2"
-date:   2025-05-14 13:00:01
+date:   2025-05-14 11:00
 categories: data
 tags: ["python","vector", "metrics","clip","lance","r2"]
 ---
