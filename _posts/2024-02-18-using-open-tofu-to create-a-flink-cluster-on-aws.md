@@ -6,8 +6,6 @@ categories: aws
 tags: ["aws", "tofu", "flink", "ansible"]
 ---
 
-### Tofu init
-
 Open Tofu, the open source fork of Terraform™ became [generally available](https://www.linuxfoundation.org/press/opentofu-announces-general-availability) last month. I wanted to create a project using Tofu to try it out and see if there were any issues or differences compared to Terraform.
 
 I had a couple of things in mind doing this. Aside from trying Open Tofu for the first time I wanted to make sure Tofu could:
