@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "When Your Real-Time Dashboard Refuses to be Real-Time: An Evening with Rill, Paimon, and DuckDB"
-date:   2025-09-27 22:00
+date:   2025-09-27 21:00
 categories: data
 tags: ["apache","flink","paimon", "cdc", "duckdb", "rill"]
 ---
