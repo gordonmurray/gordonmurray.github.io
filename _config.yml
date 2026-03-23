@@ -19,7 +19,7 @@
 # in the templates via {{ site.myvariable }}.
 
 title: Gordon Murray
-email: gordon@gordonmurray.com
+email: gordon@gordonmurray.ie
 description: >- # this means to ignore newlines until "baseurl:"
   Experienced platform Engineer with a passion for working with AWS, Terraform, Ansible. AWS Certified Solutions Architect and Certified Terraform Associate
 baseurl: "/" # the subpath of your site, e.g. /blog
@@ -39,7 +39,7 @@ minima:
   show_excerpts: true
   social_links:
     - platform: bluesky
-      user_url: "https://bsky.app/profile/gordonmurray.com"
+      user_url: "https://bsky.app/profile/gordonmurray.ie"
       title: "Bluesky"
 
 # Exclude from processing.
