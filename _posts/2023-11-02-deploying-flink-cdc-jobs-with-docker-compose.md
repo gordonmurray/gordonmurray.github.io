@@ -171,7 +171,7 @@ get total_sales
 # "5500.00"
 ```
 
-You can expand on this by adding Checkpoints, which can be handy to help Flink jobs tolerate restarts. I wrote about checkpoints recently here: [https://gordonmurray.com/data/2023/10/25/using-checkpoints-in-apache-flink-jobs.html](https://gordonmurray.com/data/2023/10/25/using-checkpoints-in-apache-flink-jobs.html)
+You can expand on this by adding Checkpoints, which can be handy to help Flink jobs tolerate restarts. I wrote about checkpoints recently here: [https://gordonmurray.ie/data/2023/10/25/using-checkpoints-in-apache-flink-jobs.html](https://gordonmurray.ie/data/2023/10/25/using-checkpoints-in-apache-flink-jobs.html)
 
 Once you’re done, you can run `docker compose down` to stop the containers.
 
