@@ -33,7 +33,7 @@ plugins:
   - jekyll-feed
 
 domain: gordonmurray.github.io
-url: https://gordonmurray.com
+url: https://gordonmurray.ie
 
 minima:
   show_excerpts: true
