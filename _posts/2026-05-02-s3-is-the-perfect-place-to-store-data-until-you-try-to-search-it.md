@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "S3 is the perfect place to store data, until you try to search it."
-date:   2026-05-02 14:00
+date:   2026-05-02 09:00
 categories: data
 tags: ["rust", "lance", "foyer", "s3", "axum", "search", "vector", "firn"]
 ---
