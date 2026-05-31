@@ -10,7 +10,7 @@ tags: ["rust", "lance", "foyer", "s3", "vector", "search", "cache", "clip", "fir
 
 I wanted to make those near-miss queries better without changing what they return. This is a post on two attempts at resolving that.
 
-## Lance's `CacheBackend`
+## Lance's CacheBackend
 
 Firn is built on LanceDB and Lance. Lance added a pluggable `CacheBackend` trait for index state on 2026-03-29 ([PR 6222](https://github.com/lance-format/lance/pull/6222)). That is the kind of hook an object-storage-backed search engine wants. Instead of caching final query results, cache the internal building blocks Lance needs for every search: index metadata and decoded index state.
 
