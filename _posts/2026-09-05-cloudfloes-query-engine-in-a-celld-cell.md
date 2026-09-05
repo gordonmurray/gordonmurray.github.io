@@ -105,7 +105,9 @@ This time I used the actual Iceberg count query. Each request opened a new DuckD
 
 So the short window worked too. In this local test it saved about 200 ms on the full request. But an expiry time only answers how long to keep something when there is room for it. I also needed to know what happened when the node needed that memory sooner.
 
-[Watch the terminal recording](https://asciinema.org/a/BkWvvkyPAhfN5HxG): the same Iceberg query from a fresh process, with the runtime retained, and after it expires. Each run returns the same 37,537 rows. This is a separate recorded run, so its timings differ from the measurements above.
+[![asciicast](https://asciinema.org/a/1264681.svg)](https://asciinema.org/a/1264681)
+
+The same Iceberg query from a fresh process, with the runtime retained, and after it expires. Each run returns the same 37,537 rows. This is a separate recorded run, so its timings differ from the measurements above.
 
 ## What happens when the node needs the memory back?
 
